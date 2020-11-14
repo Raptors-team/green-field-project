@@ -1,5 +1,5 @@
 const { User } = require("../database/User")
-
+const { login } = require("../database/User")
 
 module.exports = {
     signupP: async (req, callback) => {
@@ -36,6 +36,15 @@ module.exports = {
         //         console.log('not saved')
         //         callback(err, null)
         //     })
+    },
+    loginP: async (req, callback) => {
+        const { email, password } = req.body;
+        try {
+            const user = await login(email, password);
+            callback(null, user)
+        }
+        catch (err) {
+            callback(err, null)
+        }
     }
-    //  loginP: 
 }

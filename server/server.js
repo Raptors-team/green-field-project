@@ -12,6 +12,7 @@ app.use(express.json());
 app.use(express.static('../client/public'))//ns
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
+
 // app.post('/signup', (req, res) => {
 //   console.log(req.body)
 //   res.status(200).send('fine')
@@ -29,9 +30,18 @@ const createToken = (id) => {
 
 
 app.use(cors())
+
+// app.post('/signup', (req, res) => {
+//   res.cookie('hhhhhhhhhhh', true)
+//   console.log('/------------------------------------------------------')
+//   console.log(res.cookie.newUser)
+//   res.status(200).send('worked')
+// })
+
+
 app.use(authRoutes)
 
-//app.post('/signup',  )
+
 /**Mongodb things */
 // const mongoose = require('mongoose');
 // const dbURI = 'mongodb://localhost/gfp'
@@ -39,17 +49,19 @@ app.use(authRoutes)
 // const db = mongoose.connection;
 // db.on('error', console.error.bind(console, 'connection error'));
 // db.once('open', () => { console.log('connected') })
-app.get('/signup', (req, res) => {
-  res.cookie('cookieAAAA', true, { httpOnly: true }) //1
-  res.cookie('cookieCCC', 'cookie cccc') //1
-  res.cookie('cookieBBBB', true, { maxAge: 1000 * 60 * 60 * 24 }) //2 //secure:true
-  console.log('signup-post-controller-1 Worked')
-  const token = createToken('5faf23eba25f82427c278cb4');
-  console.log('COOOOOKIE HERE:::::::::', token)
-  res.cookie('jwt', token)//, { httpOnly: true, maxAge: maxAge * 1000 }
-  res.status(201).send('DONE')
 
-})
+// app.get('/signup', (req, res) => {
+//   res.cookie('meena', 'working', { httpOnly: true }) //1
+//   res.cookie('cookieCCC', 'cookie cccc') //1
+//   res.cookie('cookieBBBB', true, { maxAge: 1000 * 60 * 60 * 24 }) //2 //secure:true
+//   res.cookie("Test", "If you see this then it works", { httpOnly: false, secure: true, sameSite: "none" }).json({ message: "Finished" });
+//   console.log('signup-post-controller-1 Worked')
+//   const token = createToken('5faf23eba25f82427c278cb4');
+//   console.log('COOOOOKIE HERE:::::::::', token)
+//   res.cookie('jwt', token)//, { httpOnly: true, maxAge: maxAge * 1000 }
+//   res.status(201).send('DONE')
+
+// })
 
 
 //app.use('/', router);

@@ -34,11 +34,12 @@ let userSchema = new Schema({
 
 userSchema.pre('save', async function (next) {
     //this: refer to user instance
+    var user = this;
+    if (!user.isModified('password')) return next();
     const salt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(this.password, salt);
-    next()
-})
-
+    next();
+});
 
 // fire a function after saving to db:
 userSchema.post('save', (doc, next) => {
@@ -46,9 +47,28 @@ userSchema.post('save', (doc, next) => {
 
     next()
 })
+
+
+
+
 const User = mongoose.model('user', userSchema);//collection name must be: users
 
-
+var login = async function (email, password) {
+    console.log('auth ::::::::::::::::::::: ')
+    console.log(email)
+    console.log(password)
+    //this refers to user model
+    const user = await User.findOne({ email });
+    if (user) {
+        var auth = await bcrypt.compare(password, user.password);
+        console.log(auth)
+        if (auth) {
+            return user;
+        }
+        throw Error('incorrect password')
+    }
+    throw Error('unregistered email')
+}
 
 // const email = 'dima.owens@gmail.com'
 // const password = 'workkwork'
@@ -73,3 +93,4 @@ const User = mongoose.model('user', userSchema);//collection name must be: users
 //     else { console.log('saved') }
 // })
 module.exports.User = User;
+module.exports.login = login;

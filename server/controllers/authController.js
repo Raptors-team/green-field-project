@@ -11,32 +11,25 @@ const createToken = (id) => {
     return jwt.sign({ id }, 'team 6 secret workk', {
         expiresIn: maxAge
     })
-
 }
 //error handler; msg to client console
 const handleErrors = (err) => {
     //need to handle the duplication of value 
-    console.log('--------------------------------------------------------------------------------------------------')
-    console.log('0')
-    console.log(err.message, err.code)
-    console.log(Object.keys(err))
-
-    console.log(err.message)
-    console.log('--------------------------------------------------------------------------------------------------')
-    console.log('1')
-    console.log(err)
-    console.log('--------------------------------------------------------------------------------------------------')
-    console.log(2)
-    console.log(err.keyValue)
-    console.log('--------------------------------------------------------------------------------------------------')
+    //console.log(Object.keys(err)) console.log(err.message)console.log(err.keyValue) console.log(err.message, err.code)
     const errors = { username: '', email: '', password: '' }
 
+    //incorrect email
+    if (err.message === 'unregistered email') {
+        errors.email = 'this email is not registered';
+    }
+
+    //incorrect email
+    if (err.message === 'incorrect password') {
+        errors.password = 'this password is incorrect';
+    }
+    //duplicate
     if (err.code === 11000) {
-        console.log("**********************************")
-        var rep = Object.keys(err.keyValue)[0]
-        console.log(Object.keys(err.keyValue))
-        console.log(Object.keys(err.keyValue)[0])
-        console.log("**********************************")
+        // console.log(Object.keys(err.keyValue))   console.log(Object.keys(err.keyValue)[0])
         if (Object.keys(err.keyValue)[0] === 'email') {
             errors.email = 'this email is already registered';
         }
@@ -56,13 +49,15 @@ const handleErrors = (err) => {
     }
     return errors;
 }
+
+//signup_get cookies is working 
 module.exports = {
-    signup_get: (req, res) => { res.send('signup get'); },
+    signup_get: (req, res) => {
+
+    },
     login_get: (req, res) => { res.send('login get'); },
     signup_post: (req, res) => {
-        //
         console.log('HERE SIGNUP POST')
-        console.log(req.body)
         models.signupP(req, (err, data) => {
             if (err) {
                 console.log('signup-post-controller-1 ERROR')
@@ -71,18 +66,33 @@ module.exports = {
                 res.status(400).send(errors)
             }
             else {
-                res.cookie('newUser', true, { httpOnly: true }) //1
-                res.cookie('cookie123', true, { maxAge: 1000 * 60 * 60 * 24 }) //2 //secure:true
+                //res.setHeader('Set-cookie', 'newUser=true');
+                // res.cookie('newUser', true, { httpOnly: true }) //1
+                //res.cookie('cookie123', true, { maxAge: 1000 * 60 * 60 * 24 }) //2 //secure:true
                 console.log('signup-post-controller-1 Worked')
-
                 const token = createToken(data._id);
-                res.cookie('jwt', token)//, { httpOnly: true, maxAge: maxAge * 1000 }
+                console.log(token)
+                //res.cookie('jwt', token)//, { httpOnly: true, maxAge: maxAge * 1000 }
+                // res.cookie('showUp', 'res.cookie work')
 
-                res.status(201).json(data)
+                res.header('jwt-auth', token).json({ token: token });
+                // console.log({ user: data._id })
+                // res.status(201).json({ user: data._id, token: token })
             }
         })
     },
-    login_post: (req, res) => { res.send('user login post'); }
+    login_post: (req, res) => {
+
+        models.loginP(req, (err, data) => {
+            if (err) {
+                const errors = handleErrors(err)
+                res.status(400).json({ errors })
+            }
+            else {
+                res.status(200).json({ user: data._id })
+            }
+        })
+    }
 }
 
 

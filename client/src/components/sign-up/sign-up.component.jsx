@@ -5,6 +5,7 @@ import CustomButton from '../custom-button/custom-button.component';
 
 
 import './sign-up.styles.css';
+//import { response } from '../../../../server/routes/authRoutes';
 
 class SignUp extends React.Component {
   constructor() {
@@ -22,17 +23,29 @@ class SignUp extends React.Component {
     event.preventDefault();
     const requestOptions = {
       method: 'POST',
+      //  mode: "cors",
+      // withCredentials: true,
+      // credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        // 'Accept': 'application/json'
       },
       body: JSON.stringify({ email: this.state.email, password: this.state.password, confirmPassword: this.state.password, name: this.state.displayName })
     };
     try {
       //fetch('http://127.0.0.1:5000/signup')
       const res = await fetch('http://127.0.0.1:5000/signup', requestOptions)
-        .then((response) => fetch('http://127.0.0.1:5000/signup'))
-        .catch((err) => console.log(err))
+        .then((response) => {
+          console.log(response.headers['set-cookie'])
+          console.log(response.headers['Content-Type'])
+          console.log(response.headers)
+          console.log(Object.keys(response.headers))
+
+          return response.json();
+        })//fetch('http://127.0.0.1:5000/signup')
+        .then(data => localStorage.setItem('jwt-auth', data.token))
+        .catch((err) => console.log(err));
+      //const data = await response.json()
     }
     catch (error) {
       console.log(error)
