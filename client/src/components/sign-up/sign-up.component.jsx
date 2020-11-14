@@ -29,10 +29,10 @@ class SignUp extends React.Component {
       body: JSON.stringify({ email: this.state.email, password: this.state.password, confirmPassword: this.state.password, name: this.state.displayName })
     };
     try {
-      fetch('http://127.0.0.1:5000/signup')
-      // const res = await fetch('http://127.0.0.1:5000/signup', requestOptions)
-      //   .then((response) => fetch('http://127.0.0.1:5000/signup'))
-      //   .catch((err) => console.log(err))
+      //fetch('http://127.0.0.1:5000/signup')
+      const res = await fetch('http://127.0.0.1:5000/signup', requestOptions)
+        .then((response) => fetch('http://127.0.0.1:5000/signup'))
+        .catch((err) => console.log(err))
     }
     catch (error) {
       console.log(error)

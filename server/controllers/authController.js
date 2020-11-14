@@ -74,6 +74,7 @@ module.exports = {
                 res.cookie('newUser', true, { httpOnly: true }) //1
                 res.cookie('cookie123', true, { maxAge: 1000 * 60 * 60 * 24 }) //2 //secure:true
                 console.log('signup-post-controller-1 Worked')
+
                 const token = createToken(data._id);
                 res.cookie('jwt', token)//, { httpOnly: true, maxAge: maxAge * 1000 }
 

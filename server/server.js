@@ -29,7 +29,7 @@ const createToken = (id) => {
 
 
 app.use(cors())
-//app.use(authRoutes)
+app.use(authRoutes)
 
 //app.post('/signup',  )
 /**Mongodb things */
