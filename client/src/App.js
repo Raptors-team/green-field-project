@@ -10,6 +10,8 @@ import MaterialUIPickers from "./date";
 import TextField from '@material-ui/core/TextField';
 import GoogleMaps from "./Inputsearch";
 import Images from './Card';
+import AppBarr from './AppBarr';
+import Greeting from './Greeting';
 
 class App extends React.Component {
   constructor() {
@@ -18,6 +20,7 @@ class App extends React.Component {
 
     }
   }
+  
 
   componentDidMount() {
     // fetch("https://hotels4.p.rapidapi.com/locations/search?locale=en_US&query=amsterdam", {
@@ -44,33 +47,11 @@ class App extends React.Component {
       //  <SignInAndSignUpPage/>
       // </div>
       <div>
-        <div className="NavBar">
-          <AppBar position="static">
-            <Toolbar className="toolBar">
-              <IconButton color='inherit' edge="start" aria-label="menu">
-                <MenuIcon />
-              </IconButton>
-              <Typography className="typography" variant="h4">
-                HotelCom
-          </Typography>
-              <Button color="inherit">
-                Login
-          </Button>
-              <Button color="inherit">
-                Signup
-            </Button>
-              <IconButton color='inherit' edge="start" aria-label="menu">
-                <AccountCircleIcon className="Account" />
-              </IconButton>
-            </Toolbar>
-          </AppBar>
-        </div>
+        <AppBarr />
+    
         <div className="Greeting" >
-          <div position="static" className="greeting" >
-            <Typography variant="h3" className="text" >
-              Where to next, .......
-          </Typography>
-          </div>
+          <Greeting />
+      
           <form className="form" noValidate autoComplete="off">
             <GoogleMaps />
             <MaterialUIPickers name="check in" />
@@ -83,7 +64,6 @@ class App extends React.Component {
           </form>
         </div>
         <div>
-
         </div>
       </div>
     );
