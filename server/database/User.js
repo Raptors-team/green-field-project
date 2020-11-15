@@ -44,21 +44,17 @@ userSchema.pre('save', async function (next) {
 // fire a function after saving to db:
 userSchema.post('save', (doc, next) => {
     console.log('new user was created ', doc)
-
     next()
 })
-
-
 
 
 const User = mongoose.model('user', userSchema);//collection name must be: users
 
 var login = async function (email, password) {
     console.log('auth ::::::::::::::::::::: ')
-    console.log(email)
-    console.log(password)
     //this refers to user model
     const user = await User.findOne({ email });
+    console.log(user)
     if (user) {
         var auth = await bcrypt.compare(password, user.password);
         console.log(auth)
@@ -70,27 +66,5 @@ var login = async function (email, password) {
     throw Error('unregistered email')
 }
 
-// const email = 'dima.owens@gmail.com'
-// const password = 'workkwork'
-// const username = 'dimaOwens'
-// var s = async () => {
-//     const user = await User.create({ username, password, email })
-//     user.save(err => {
-//         if (err) { console.log('error not saved') }
-//         else { console.log('saved') }
-//     })
-// }
-
-// s();
-// var user = new User({
-//     username: 'dima',
-//     email: 'dima@gmail.com',
-//     password: 'delkjhhwd'
-// })
-// console.log(user)
-// user.save(err => {
-//     if (err) { console.log('error not saved') }
-//     else { console.log('saved') }
-// })
 module.exports.User = User;
 module.exports.login = login;

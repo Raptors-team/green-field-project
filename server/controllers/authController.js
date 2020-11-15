@@ -1,10 +1,6 @@
 const models = require('../models/User')
 const jwt = require('jsonwebtoken')
 
-//const cookieParser = require('cookie-parser')
-
-
-
 const maxAge = 3 * 24 * 60 * 60 //seconds ; unlike cookies(miliseconds)
 const createToken = (id) => {
     //payload - secret -> signature
@@ -52,12 +48,7 @@ const handleErrors = (err) => {
 
 //signup_get cookies is working 
 module.exports = {
-    signup_get: (req, res) => {
-
-    },
-    login_get: (req, res) => { res.send('login get'); },
     signup_post: (req, res) => {
-        console.log('HERE SIGNUP POST')
         models.signupP(req, (err, data) => {
             if (err) {
                 console.log('signup-post-controller-1 ERROR')
@@ -66,18 +57,10 @@ module.exports = {
                 res.status(400).send(errors)
             }
             else {
-                //res.setHeader('Set-cookie', 'newUser=true');
-                // res.cookie('newUser', true, { httpOnly: true }) //1
-                //res.cookie('cookie123', true, { maxAge: 1000 * 60 * 60 * 24 }) //2 //secure:true
                 console.log('signup-post-controller-1 Worked')
                 const token = createToken(data._id);
                 console.log(token)
-                //res.cookie('jwt', token)//, { httpOnly: true, maxAge: maxAge * 1000 }
-                // res.cookie('showUp', 'res.cookie work')
-
                 res.header('jwt-auth', token).json({ token: token });
-                // console.log({ user: data._id })
-                // res.status(201).json({ user: data._id, token: token })
             }
         })
     },
@@ -85,13 +68,21 @@ module.exports = {
 
         models.loginP(req, (err, data) => {
             if (err) {
+                console.log('login-post-controller-1 ERROR')
                 const errors = handleErrors(err)
                 res.status(400).json({ errors })
             }
             else {
+                console.log('login-post-controller-1 worked')
+                const token = createToken(data._id);
+                res.header('jwt-auth', token)
                 res.status(200).json({ user: data._id })
             }
         })
+    },
+    logout_get: (req, res) => {
+        console.log('logout-get-controller-1')
+        res.header('jwt-auth', '', { maxAge: 1 }).send('jwt killed')
     }
 }
 
