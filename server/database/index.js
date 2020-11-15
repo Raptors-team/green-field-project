@@ -40,7 +40,7 @@ let payment = mongoose.Schema({
 
 
 let User = mongoose.model('User', userSchema);
-let payment = mongoose.model('payment', payment);
+// let payment = mongoose.model('payment', payment);
 
 
 module.exports.User = User;

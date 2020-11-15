@@ -14,7 +14,7 @@ app.use(cors())
 // localhost:5000/signup
 // localhost:5000/payment
 
-app.use('/', router);
+// app.use('/', router);
 
 let port = 5000;
 
