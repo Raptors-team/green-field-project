@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import React from "react"
+import Card from './components/cards/card.component'
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component"
 class App extends React.Component {
   constructor() {
@@ -25,11 +26,12 @@ class App extends React.Component {
     // .catch(err => {
     //   console.log(err);
     // });
+    /////////////////here <SignInAndSignUpPage /> 
   }
   render() {
     return (
       <div className="App">
-        <SignInAndSignUpPage />
+        <Card />
       </div>
     );
   }
