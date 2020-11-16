@@ -1,47 +1,13 @@
 body {
   font-family: 'Open Sans Condensed';
-  /* padding: 30px 40px; */
-  /* place-items:center; */
+  /* padding: 20px 40px; */
 }
-.toolBar{
-  display: flex;
 
-}
 a {
   text-decoration: none;
   color: black;
 }
-.typography{
-  flex : 1 ; 
-}
 
-.greeting{
-background-color: rgb(255, 250, 250);
-height: 10rem;
-display: flex;
-align-items: center;
-justify-content: center;
-}
-.text{
-  color: black;
-  /* text-align: center; */
-}
-.Account{
- padding: 1px;
-}
 * {
   box-sizing: border-box;
-  
 }
-
-.form{
- display: flex;
- justify-content: space-around;
- align-items: center;
-}
-.search{
-  align-self: flex-end;
-  padding: .6rem;
-}
-
- 
