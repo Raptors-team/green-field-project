@@ -11,6 +11,8 @@ class App extends React.Component {
       hotels: [], //x is country code
       country: '',
       destId: '', //city-country-destid shared between all hotels
+      initailItems: [{ city: 'New York' }],
+      facilities: []
     }
   }
 
@@ -22,6 +24,16 @@ class App extends React.Component {
     })
   }
 
+  // generateDesc(items) {
+
+  //   items.forEach((item, i) => {
+  //     this.state.facilities.push[item]
+  //   }).then(() => {
+
+  //   })
+
+  //   var random5 = Math.random
+  // }
 
   //header:   //jordan:   "header":"South Jordan, Utah, United States of America"
   // Egypt: only Egypt, so split on comma and take only [0] 
@@ -52,18 +64,20 @@ class App extends React.Component {
     //           return response.json()
     //         })
     //         .then(data => {
-    //           // console.log(data.data.body.searchResults.results[0].address.countryCode)
-    //           //console.log(data)
+    //           console.log(data.data.body.searchResults.results[0].address.countryCode)
+    //           console.log(data)
     //           this.setState({
-    //             destId =  data.data.body.query.destination.id
+    //             destId: data.data.body.query.destination.id
     //           })
+    //         const facilities = data.data.body.filters.facilitis.items;
+    //            this.generateDesc(facilities)
     //           // this.setCountry(data.data.body.headed) //inside this do the state city and country
     //           this.setState({ hotels: data.data.body.searchResults.results })
     //           //search
     //           //    let x = data.data.body.searchResults.results[0].address.countryCode   /x
 
     //           //   this.setState({ [x]: data.data.body.searchResults.results })          /x      
-    //           //  console.log(data.data.body.searchResults.results)
+    //           console.log(data.data.body.searchResults.results)
     //         })
     //         .then(data => console.log(this.state))
     //         .catch(err => {
@@ -79,9 +93,10 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        {this.state.hotels.map((hotel, index) => (
+        {/* {this.state.hotels.map((hotel, index) => (
           <HotelViewCard key={index} hotel={hotel} destId={this.state.destId} country={this.state.country} />
-        ))}
+        ))} */}
+        <SignInAndSignUpPage />
       </div>
     );
   }

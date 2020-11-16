@@ -15,7 +15,7 @@ let reservationSchema = new Schema({
         ref: 'Hotel',
         required: true
     },
-    roomPrice: Float32Array
+    //roomPrice: Float32Array //not needed!
 },
     { timestamps: true });
 

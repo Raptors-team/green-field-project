@@ -48,18 +48,18 @@ class HotelViewCard extends Component {
     constructor(props) {
         super()
         this.state = {
-            rating: props.guestReviews.rating,
-            name: props.name,
-            price: props.ratePlan.price.exactCurrent,
-            thumbnailUrl: props.thumbnailUrl,
-            landmarks: {
-                label: props.landmarks[0].label,
-                distance: props.landmarks[0].distance
-            },
-            badge: props.guestReviews.rating.badge,
-            id: props.id,
-            destId: props.destId,
-            countryN: props.country,
+            rating: props.hotel.guestReviews.rating,
+            name: props.hotel.name,
+            price: props.hotel.ratePlan.price.exactCurrent,
+            thumbnailUrl: props.hotel.thumbnailUrl,
+            // landmarks: {
+            //     label: props.hotel.landmarks[0].label,
+            //     distance: props.hotel.landmarks[0].distance
+            // },
+            // badge: props.hotel.guestReviews.rating.badge,
+            // id: props.hotel.id,
+            // destId: props.destId,
+            // countryN: props.country,
         }
     }
 

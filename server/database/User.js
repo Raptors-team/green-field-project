@@ -26,6 +26,7 @@ let userSchema = new Schema({
         required: [true, 'Please enter your email'],
         validate: [isEmail, 'Please enter a valid Email']
     },
+    reservations: []
 },
     { timestamps: true });
 
@@ -68,3 +69,7 @@ var login = async function (email, password) {
 
 module.exports.User = User;
 module.exports.login = login;
+
+
+
+

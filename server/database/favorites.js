@@ -3,11 +3,17 @@ const Schema = mongoose.Schema;
 //this one will be the as favorite cards, so the same Hotel info(schema) with an id  
 const favoriteSchema = new Schema = ({
     id: Number,
-    HotelId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Hotel',
-        required: true
-    }
+    name: String,
+    price: Float32Array,
+    thumbnailUrl: String,
+    destId: Number,
+    landmarks: {
+        label: String,
+        distance: String
+    },
+    badge: String,
+    countryN: String,
+    rating: Float32Array
 },
     { timestamps: true }
 );
