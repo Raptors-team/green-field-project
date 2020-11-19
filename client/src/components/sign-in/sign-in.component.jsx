@@ -13,44 +13,63 @@ class SignIn extends React.Component {
 
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      token: ""
     };
   }
+  componentDidMount() {
+    // this.handleSubmit()
+  }
+  handleSubmit = (event) => {
+    event.preventDefault()
 
-  handleSubmit = async event => {
-    event.preventDefault();
-    console.log(this.state.email)
-    console.log(this.state.password)
-  };
+    fetch('http://127.0.0.1:5000/user/signin', {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(this.state),
+    })
+      .then(response => response.json())
+      .then( (data) => {
+        // this.setState({token:localStorage.getItem("token")})
+        localStorage.setItem("jwt-auth", data.token)
+
+        console.log('Success:', data);
+      })
+      .then(()=> window.location.reload())
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+
+    this.setState({ email: '', password: '' })
+  }
 
   handleChange = event => {
-    const email = event.target.email;
-    const password = event.target.password;
-    this.setState({
-      [event.target.email]: email,
-      [event.target.password]: password
-    })
-  };
+    const { value, name } = event.target;
+    this.setState({ [name]: value })
+
+  }
 
   render() {
-    const { email, password } = this.state;
     return (
       <div className='sign-in'>
         <h2>I already have an account</h2>
         <span>Sign in with your email and password</span>
+
         <form onSubmit={this.handleSubmit}>
           <FormInput
             name='email'
             type='email'
             handleChange={this.handleChange}
-            value={email}
+            value={this.state.email}
             label='email'
             required
           />
           <FormInput
             name='password'
             type='password'
-            value={password}
+            value={this.state.password}
             handleChange={this.handleChange}
             label='password'
             required

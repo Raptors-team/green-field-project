@@ -1,0 +1,27 @@
+/* .directory-menu {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  } */
+
+  .cards-list {
+    z-index: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+   body {
+     /* background-color: #FFE4C4; */
+     background-color:  lavender;
+   }
+  .particles {
+    position: fixed;
+    top:0;
+    right:0;
+    bottom: 0;
+    left:0;
+    z-index: -1; /*this should be below anythig*/
+  }

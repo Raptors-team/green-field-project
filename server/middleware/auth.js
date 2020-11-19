@@ -1,49 +1,26 @@
 const jwt = require('jsonwebtoken');
+const { User } = require("../database/User")
+
+const auth = async (req, res, next) => {
+  const token = req.header('jwt-auth');
+
+  // Check for token
+  if (!token)
+    return res.status(401).json({ msg: 'No token, authorization denied' });
+ 
+  try {
+    // Verify token
+    const decoded = await jwt.verify(token, "mysecret");
+    const user = await User.findOne({ _id: decoded.id })
+    // Add user from payload
+    console.log(user)
+    req.user = user;
+    next();
+  } catch (e) {
+    res.status(400).json({ msg: 'Token is not valid' });
+  }
+};
 
 
-const requireAuth = (req, res, next) => {
-    const token = req.header['jwt-auth']
 
-    //jwt exists?
-    if (token) {
-        jwt.verify(token, 'team 6 secret workk', (err, decodedToken) => {
-            if (err) {
-                console.log(err.message);
-                res.send(err.message)
-            }
-            else {
-                res.send(decodedToken)
-                next();
-            }
-        })
-    }
-    else {
-        res.send('no token!')
-    }
-}
-
-//check current user
-const checkUser = (req, res, next) => {
-    //ask about this one
-    const token = req.header['jwt-auth']
-    if (token) {
-        jwt.verify(token, 'team 6 secret workk', async (err, decodedToken) => {
-            if (err) {
-                console.log(err.message);
-                res.locals.user = null;
-                next();
-            } else {
-                console.log(decodedToken);
-                let user = await User.findById(decodedToken.id);
-                res.locals.user = user;
-                next()
-            }
-        })
-    }
-    else {
-        res.locals.user = null;
-        next();
-    }
-}
-
-module.exports = { requireAuth, checkUser };
+module.exports =  auth

@@ -1,0 +1,19 @@
+.toolBar{
+    display: flex;
+    justify-content: space-between;
+  
+  }
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  .typography{
+    flex : 1 ; 
+  }
+  .mys{
+    color: white;
+  }
+  .center {
+    display: flex;
+    justify-content: center;
+  }

@@ -1,107 +1,192 @@
-import logo from './logo.svg';
 import './App.css';
 import React from "react"
-import HotelViewCard from './components/cards/read'
+import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
+
+
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component"
-import StribeCheckoutButton from './components/custom-button/custom-button.component'
+import HomePage from "./pages/homePage/homePage"
+import CardComp from "./components/cardComponents/card"
+import NavAndSearch from "./components/navBar/navBar"
+import Profile from "./pages/profile/profile.jsx"
+import CardList from "./components/CardList/cardList"
+import TrialCard from "./components/trialCard/trialCard.jsx"
+import Favorites from "./pages/favorites/favorites.jsx"
+import Reservations from "./pages/reservations/reservations.jsx"
+
 class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      hotels: [], //x is country code
-      country: '',
-      destId: '', //city-country-destid shared between all hotels
-      initailItems: [{ city: 'New York' }],
-      facilities: []
+      // initailItems: [ { city: "rome" },{ city: "losAngeles" }, { city: "kualalumpur", size: 'large' }, { city: "singapore", size: 'large' }, { city: 'paris' }, { city: "Barcelona" }],
+      currentUser: "",
+      checkIn: "2020-11-24",
+      checkOut: "2020-11-30",
+      searchValue: "",
+      cityAndCountry: "",
+      adults: 1,
+      resulsArray: [],
+      reservationArray: [],
+      favoritesArray: []
     }
   }
 
-  setCountry(header) {
-    var cont = header.split(',');
-    cont = cont[0];
-    this.setState({
-      cointry: cont
-    })
+  //converting the date into numbers
+  dateDifferenceNumber = () => {
+    let x = this.state.checkIn.split("-")
+    let y = this.state.checkOut.split("-")
+
+    return (y[0] - x[0]) * 365 + (y[1] - x[1]) * 30 + (y[2] - x[2])
   }
 
-  // generateDesc(items) {
+  handleCheckInChange = (checkIn) => {
+    this.setState({ checkIn })
+  }
 
-  //   items.forEach((item, i) => {
-  //     this.state.facilities.push[item]
-  //   }).then(() => {
+  handleCheckOutChange = async (checkOut) => {
+    await this.setState({ checkOut })
+    console.log(this.state)
+  }
 
-  //   })
+  handlesearchValueChange = async (searchValue) => {
+    await this.setState({ searchValue })
+    console.log(this.state)
+  }
+  handleCityAndCountry = (cityAndCountry) => {
+    this.setState({ cityAndCountry })
+  }
 
-  //   var random5 = Math.random
+  // handleSeachButtonClick = () => {
+  //   console.log(this.state.searchValue)
+  //     fetch(`https://hotels4.p.rapidapi.com/locations/search?locale=en_US&query=${this.state.searchValue}`, {
+  //       "method": "GET",
+  //       "headers": {
+  //         "x-rapidapi-key": "19fe5ca383msh9591c981cf8ec3ap1768e4jsn0d1c67890d8e",
+  //         "x-rapidapi-host": "hotels4.p.rapidapi.com"
+  //       }
+  //     })
+  //       .then(response => {
+  //         return response.json()
+  //       })
+  //       .then((data) => {
+  //         fetch(`https://hotels4.p.rapidapi.com/properties/list?destinationId=${data.suggestions[0].entities[0].destinationId}&pageNumber=1&checkIn=${this.state.checkIn}&checkOut=${this.state.checkOut}&pageSize=25&adults1=1&currency=USD&locale=en_US&sortOrder=PRICE`, {
+  //           "method": "GET",
+  //           "headers": {
+  //             "x-rapidapi-key": "19fe5ca383msh9591c981cf8ec3ap1768e4jsn0d1c67890d8e",
+  //             "x-rapidapi-host": "hotels4.p.rapidapi.com"
+  //           }
+  //         })
+  //           .then(response => {
+  //             return response.json()
+  //           })
+  //           .then(data => {
+  //             this.setState({ resulsArray: data.data.body.searchResults.results })
+  //           })
+  //           .then(data => console.log(this.state))
+  //           .catch(err => {
+  //             console.error(err);
+  //           });
+  //       })
+  //       .catch(err => {
+  //         console.log(err);
+  //       });
   // }
 
-  //header:   //jordan:   "header":"South Jordan, Utah, United States of America"
-  // Egypt: only Egypt, so split on comma and take only [0] 
-  //Lebanon: Lebanon Station, Lebanon, Tennessee, United States of America
-  //facilities, randomly  6, 
+  handleReservationArray = async (reservationArray) => {
+    await this.setState({ reservationArray })
+    console.log(this.state)
+  }
+  handleFavoritesArray = async (favoritesArray) => {
+    await this.setState({ favoritesArray })
+    console.log(this.state)
+  }
   componentDidMount() {
+    //checking the auth
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'jwt-auth': localStorage.getItem('jwt-auth')
+      },
+    }
+    fetch("http://localhost:5000/user/auth", requestOptions)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          currentUser: data.displayName, favoritesArray: data.favorites, reservationArray: data.reservations
+        })
+      })
+      .then(() => console.log(this.state))
+      .catch(err => console.log(err.message))
 
-    // this.state.initailItems.map(item => {
-    //   fetch(`https://hotels4.p.rapidapi.com/locations/search?locale=en_US&query=${item.city}`, {
-    //     "method": "GET",
-    //     "headers": {
-    //       "x-rapidapi-key": "bb0ddce03amsh59662679f4f2b5bp17dea1jsn6c36a95e7593",
-    //       "x-rapidapi-host": "hotels4.p.rapidapi.com"
-    //     }
-    //   })
-    //     .then(response => {
-    //       return response.json()
-    //     })
-    //     .then((data) => {
-    //       fetch(`https://hotels4.p.rapidapi.com/properties/list?destinationId=${data.suggestions[0].entities[0].destinationId}&pageNumber=1&checkIn=2020-01-08&checkOut=2020-01-15&pageSize=25&adults1=1&currency=USD&locale=en_US&sortOrder=PRICE`, {
-    //         "method": "GET",
-    //         "headers": {
-    //           "x-rapidapi-key": "bb0ddce03amsh59662679f4f2b5bp17dea1jsn6c36a95e7593",
-    //           "x-rapidapi-host": "hotels4.p.rapidapi.com"
-    //         }
-    //       })
-    //         .then(response => {
-    //           return response.json()
-    //         })
-    //         .then(data => {
-    //           console.log(data.data.body.searchResults.results[0].address.countryCode)
-    //           console.log(data)
-    //           this.setState({
-    //             destId: data.data.body.query.destination.id
-    //           })
-    //           const facilities = data.data.body.filters.facilitis.items;
-    //           this.generateDesc(facilities)
-    //           // this.setCountry(data.data.body.headed) //inside this do the state city and country
-    //           this.setState({ hotels: data.data.body.searchResults.results })
-    //           //search
-    //           //    let x = data.data.body.searchResults.results[0].address.countryCode   /x
+    console.log("pathname", window.location.pathname);
 
-    //           //   this.setState({ [x]: data.data.body.searchResults.results })          /x      
-    //           console.log(data.data.body.searchResults.results)
-    //         })
-    //         .then(data => console.log(this.state))
-    //         .catch(err => {
-    //           console.error(err);
-    //         });
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-    // })
+
 
   }
   render() {
     return (
       <div className="App">
-        <p>Below here</p>
-        {/* {this.state.hotels.map((hotel, index) => (
-          <HotelViewCard key={index} hotel={hotel} destId={this.state.destId} country={this.state.country} />
-        ))} */}
-        {/* <SignInAndSignUpPage /> */}
-        <StribeCheckoutButton price={18} />
+        <BrowserRouter>
+          <Route exact path="/signin" render={() =>
+            this.state.currentUser
+              ? (<Redirect to='/' />)
+              : (<SignInAndSignUpPage />)} />
+          {/* {
+                  (window.location.pathname==="/signin")?
+                  <div></div>
+                  :
+                  <NavAndSearch handleSeachButtonClick={this.handleSeachButtonClick} currentUser={this.state.currentUser} cityAndCountry={this.handleCityAndCountry} checkIn={this.handleCheckInChange} checkOut={this.handleCheckOutChange} searchValue={this.handlesearchValueChange}/>
+                } */}
+          <Route exact path="/profile" render={() =>
+            this.state.currentUser
+              ? (<Profile handleSeachButtonClick={this.handleSeachButtonClick} currentUser={this.state.currentUser} cityAndCountry={this.handleCityAndCountry} checkIn={this.handleCheckInChange} checkOut={this.handleCheckOutChange} searchValue={this.handlesearchValueChange} />)
+              : (<Redirect to='/' />)} />
+          <Route exact path="/profile/favorites" render={() =>
+            this.state.currentUser
+              ? (<Favorites favoritesArray={this.state.favoritesArray} handleSeachButtonClick={this.handleSeachButtonClick} currentUser={this.state.currentUser} cityAndCountry={this.handleCityAndCountry} checkIn={this.handleCheckInChange} checkOut={this.handleCheckOutChange} searchValue={this.handlesearchValueChange} />)
+              : (<Redirect to='/' />)} />
+
+          <Route exact path="/profile/reservations" render={() =>
+            this.state.currentUser
+              ? (<Reservations reservationArray={this.state.reservationArray} handleSeachButtonClick={this.handleSeachButtonClick} currentUser={this.state.currentUser} cityAndCountry={this.handleCityAndCountry} checkIn={this.handleCheckInChange} checkOut={this.handleCheckOutChange} searchValue={this.handlesearchValueChange} />)
+              : (<Redirect to='/' />)} />
+          <Switch>
+            <Route exact path="/" render={() => <HomePage handleSeachButtonClick={this.handleSeachButtonClick} currentUser={this.state.currentUser} cityAndCountry={this.handleCityAndCountry} checkIn={this.handleCheckInChange} checkOut={this.handleCheckOutChange} searchValue={this.handlesearchValueChange} />} />
+            {/* <Route exact path="/card" render={() => <CardComp handleSeachButtonClick={this.handleSeachButtonClick} currentUser={this.state.currentUser} cityAndCountry={this.handleCityAndCountry} checkIn={this.handleCheckInChange} checkOut={this.handleCheckOutChange} searchValue={this.handlesearchValueChange} />} /> */}
+            {/* <Route exact path="/trial" render={() => <TrialCard />} /> */}
+            <Route exact path="/cardlist" render={() => <CardList adults={this.state.adults} dateDifferenceNumber={this.dateDifferenceNumber} reservationArray={this.handleReservationArray} favoritesArray={this.handleFavoritesArray} handleSeachButtonClick={this.handleSeachButtonClick} currentUser={this.state.currentUser} cityAndCountry={this.handleCityAndCountry} checkIn={this.handleCheckInChange} checkOut={this.handleCheckOutChange} searchValue={this.handlesearchValueChange} resulsArray={this.state.resulsArray} />} />
+
+          </Switch>
+        </BrowserRouter>
       </div>
     );
   }
 }
 
 export default App;
+
+
+
+//sign-up  sign-in
+//username/password
+//hash passowrd
+//save to db
+//retrieve the obj from db
+// generate token from id
+//send token in the header 
+//save the token in local storage
+
+//log out
+//res.header==>""
+//local storgare .removre item ("jwt-auth")  
+
+//logout sign-in sing-out ==>ready
+
+//now you need to verify the token!!!
+//send the token in the header as a get req from the front-end==> i need a middle-ware
+//middle ware function
+//take the token from the header==>req.header==>now i have the token
+//verify the token==>jwt.verify==>gives me the id of the user(id)
+//User.findOne({_id:id})==>gives me a user
+//send the user as a response to the front-end from the server 
+
