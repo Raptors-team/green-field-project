@@ -52,14 +52,14 @@ class HotelViewCard extends Component {
             name: props.hotel.name,
             price: props.hotel.ratePlan.price.exactCurrent,
             thumbnailUrl: props.hotel.thumbnailUrl,
-            // landmarks: {
-            //     label: props.hotel.landmarks[0].label,
-            //     distance: props.hotel.landmarks[0].distance
-            // },
-            // badge: props.hotel.guestReviews.rating.badge,
-            // id: props.hotel.id,
-            // destId: props.destId,
-            // countryN: props.country,
+            landmarks: {
+                label: props.hotel.landmarks[0].label,
+                distance: props.hotel.landmarks[0].distance
+            },
+            badge: props.hotel.guestReviews.rating.badge,
+            id: props.hotel.id,
+            destId: props.destId,
+            countryN: props.country,
         }
     }
 

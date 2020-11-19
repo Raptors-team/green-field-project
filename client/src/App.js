@@ -3,7 +3,7 @@ import './App.css';
 import React from "react"
 import HotelViewCard from './components/cards/read'
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component"
-
+import StribeCheckoutButton from './components/custom-button/custom-button.component'
 class App extends React.Component {
   constructor() {
     super()
@@ -69,8 +69,8 @@ class App extends React.Component {
     //           this.setState({
     //             destId: data.data.body.query.destination.id
     //           })
-    //         const facilities = data.data.body.filters.facilitis.items;
-    //            this.generateDesc(facilities)
+    //           const facilities = data.data.body.filters.facilitis.items;
+    //           this.generateDesc(facilities)
     //           // this.setCountry(data.data.body.headed) //inside this do the state city and country
     //           this.setState({ hotels: data.data.body.searchResults.results })
     //           //search
@@ -93,10 +93,12 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <p>Below here</p>
         {/* {this.state.hotels.map((hotel, index) => (
           <HotelViewCard key={index} hotel={hotel} destId={this.state.destId} country={this.state.country} />
         ))} */}
-        <SignInAndSignUpPage />
+        {/* <SignInAndSignUpPage /> */}
+        <StribeCheckoutButton price={18} />
       </div>
     );
   }
